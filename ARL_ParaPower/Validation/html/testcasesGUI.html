@@ -1,0 +1,684 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>testcasesGUI</title><meta name="generator" content="MATLAB 9.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-04-26"><meta name="DC.source" content="testcasesGUI.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1></h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">WCC</a></li><li><a href="#2">WCC - ParaPowerGUI_V2</a></li><li><a href="#3">WCC - ParaPowerGUI_V2</a></li><li><a href="#4">WCC - ParaPowerGUI_V2</a></li><li><a href="#5">WCC - figure 10</a></li></ul></div><h2 id="1">WCC</h2><pre class="codeinput"><span class="comment">%This M files executes the set of validation test cases for ParaPower</span>
+<span class="comment">%The test cases to run exist as shortcuts/links in the Validation/Cases</span>
+<span class="comment">%directory.  The actual file should exist in the Validation/CasesHold</span>
+<span class="comment">%directory.</span>
+
+<span class="comment">%The first time a case is run, a file is generated with the name</span>
+<span class="comment">%CASENAME_Results.ppmodel.  This file holds both the model definition as a</span>
+<span class="comment">%the results of the analysis at the time.</span>
+
+<span class="comment">%The file can be loaded into the GUI using the "load profile" GUI button.</span>
+<span class="comment">%The model will be loaded, but no the results.</span>
+
+clearvars <span class="string">-EXCEPT</span> <span class="string">TestCaseWildCard</span>
+
+addpath(<span class="string">'..'</span>);  <span class="comment">%include above directory which contains the parapower code</span>
+CaseDir=<span class="string">'Cases'</span>;  <span class="comment">%Update this to include the directory that will hold the case files.</span>
+
+<span class="keyword">if</span> exist(<span class="string">'TestCaseWildCard'</span>)
+    disp([<span class="string">'Only running casing meeting the following wildcard (TestCaseWildCard): '</span> TestCaseWildCard])
+<span class="keyword">else</span>
+    disp(<span class="string">'TestCaseWildCard variable doesn''t exist, running all testcases.'</span>)
+    TestCaseWildCard=<span class="string">'g*'</span>;
+<span class="keyword">end</span>
+TestCasesFspec=[CaseDir <span class="string">'/'</span> TestCaseWildCard ];
+TestCasesFspec=strrep(TestCasesFspec,<span class="string">'**'</span>,<span class="string">'*'</span>);
+
+testcasefiles=dir([TestCasesFspec <span class="string">'.ppmodel'</span>]);
+<span class="keyword">if</span> ispc
+    testcasefiles=[testcasefiles dir([TestCasesFspec <span class="string">'.lnk'</span>])];
+<span class="keyword">end</span>
+
+testcasefiles
+
+Compare=[];
+WinHandle=[];
+
+<span class="keyword">for</span> Icase=1:length(testcasefiles)
+
+    CaseName=char(testcasefiles(Icase).name);
+    <span class="keyword">if</span> ispc &amp;&amp; strcmpi(CaseName(end-3:end),<span class="string">'.lnk'</span>)
+        [path,name,ext]=fileparts(getTargetFromLink([testcasefiles(Icase).folder <span class="string">'\'</span> CaseName]));
+        CaseName=[name ext];
+        testcasefiles(Icase).folder=path;
+    <span class="keyword">end</span>
+    <span class="comment">%CaseName=CaseName(1:end-2);</span>
+
+    [CaseName]
+
+    <span class="keyword">if</span> isempty(str2num(CaseName(1)))
+        fprintf(<span class="string">'Executing test case %s...\n'</span>,CaseName)
+        addpath(testcasefiles(Icase).folder);
+        <span class="keyword">if</span> ishandle(WinHandle)
+            delete(WinHandle)
+        <span class="keyword">else</span>
+            delete(findall(0,<span class="string">'tag'</span>,<span class="string">'figure1'</span>));
+        <span class="keyword">end</span>
+</pre><h2 id="2">WCC - ParaPowerGUI_V2</h2><pre class="codeinput">        WinHandle=ParaPowerGUI_V2;
+        Handles=guidata(WinHandle);
+        hObject=Handles.loadbutton;
+        EventData=[];
+</pre><h2 id="3">WCC - ParaPowerGUI_V2</h2><pre class="codeinput">        ParaPowerGUI_V2(<span class="string">'loadbutton_Callback'</span>,hObject,EventData,Handles,CaseName);
+        Handles=guidata(WinHandle);
+        tic
+</pre><h2 id="4">WCC - ParaPowerGUI_V2</h2><pre class="codeinput">        ParaPowerGUI_V2(<span class="string">'RunAnalysis_Callback'</span>,hObject,EventData,Handles);
+        ExecTime=toc;
+        Results=getappdata(WinHandle,<span class="string">'Results'</span>);
+        rmpath(testcasefiles(Icase).folder)
+        CaseExists=true;
+    <span class="keyword">else</span>
+        fprintf(<span class="string">'Can''t execute ''%s''. Name cannot start with a number.\n'</span>,CaseName)
+        CaseExists=false;
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> CaseExists
+        <span class="keyword">if</span> length(Results)&gt;1
+            Results=Results(1)
+        <span class="keyword">end</span>
+        <span class="comment">%[Tprnt, T_in, MeltFrac,MeltFrac_in]=S1(GlobalTimeOrig(1:end));  %Compute states at times in ComputeTime (S1 must be called with 1 arg in 2017b)</span>
+        NewResults.Tprnt   =Results.getState(<span class="string">'Thermal'</span>);
+        NewResults.MeltFrac=Results.getState(<span class="string">'MeltFrac'</span>);<span class="comment">%cat(4, MeltFrac_in , MeltFrac);</span>
+        MI=Results.Model;
+        <span class="comment">%MI.GlobalTime = GlobalTimeOrig; %Reassemble MI's global time to match initialization and computed states.</span>
+        Fi=1; <span class="comment">%Could be used to mask for features; (Tprnt would be Tprnt(Mask)</span>
+        NewResults.DoutT(:,1+Fi)=max(reshape(NewResults.Tprnt,[],length(MI.GlobalTime)),[],1);
+        NewResults.DoutM(:,1+Fi)=max(reshape(NewResults.Tprnt,[],length(MI.GlobalTime)),[],1);
+        NewResults.DoutT(:,1)=MI.GlobalTime;
+        NewResults.DoutM(:,1)=MI.GlobalTime;
+        <span class="comment">%        ExecTime=toc;</span>
+        NewResults.ExecTime=ExecTime;
+        NewResults.DateTime=datetime;
+        NewResults.Desc=CaseName(1:max(find(CaseName==<span class="string">'.'</span>))-1); <span class="comment">%TestCaseModel.Desc;</span>
+        NewResults.Computer=computer();
+        NewResults.Matlab=ver(<span class="string">'matlab'</span>);
+        <span class="keyword">if</span> exist([testcasefiles(Icase).folder <span class="string">'/'</span> name <span class="string">'.ppmodel'</span>],<span class="string">'file'</span>)
+            ResultsFile=[testcasefiles(Icase).folder <span class="string">'/'</span> name, <span class="string">'_Results.ppmodel'</span>];
+            <span class="keyword">if</span> exist(ResultsFile,<span class="string">'file'</span>)
+                OldResults=load(ResultsFile,<span class="string">'-mat'</span>);
+                <span class="keyword">if</span> ~isfield(OldResults,<span class="string">'NewResults'</span>)
+                    disp([ResultsFile <span class="string">' uses older version of stored results file.  ''Results'' variable is now named ''NewResults''.'</span>])
+                    OldResults=OldResults.(<span class="string">'Results'</span>);
+                <span class="keyword">else</span>
+                    OldResults=OldResults.(<span class="string">'NewResults'</span>);
+                <span class="keyword">end</span>
+                Compare{Icase}.Desc=NewResults.Desc;
+                Compare{Icase}.DeltaTime=NewResults.ExecTime / OldResults.ExecTime;
+                Compare{Icase}.GlobalTime=MI.GlobalTime;
+                DoFList={<span class="string">'Tprnt'</span> <span class="string">'MeltFrac'</span>};
+                <span class="keyword">try</span>
+                    <span class="keyword">if</span> size(NewResults.Tprnt) == size(OldResults.Tprnt)
+                        <span class="keyword">for</span> Idof=1:length(DoFList)
+                            <span class="keyword">if</span> isfield(NewResults,DoFList{Idof})
+                                Compare{Icase}.DOFdesc{Idof}=DoFList{Idof};
+                                Compare{Icase}.DOFdelt{Idof}=OldResults.(DoFList{Idof}) - NewResults.(DoFList{Idof});
+                            <span class="keyword">end</span>
+                        <span class="keyword">end</span>
+                        DoFList={<span class="string">'DoutT'</span> <span class="string">'DoutM'</span>};
+                        <span class="keyword">for</span> Idof=1:length(DoFList)
+                            <span class="keyword">if</span> isfield(NewResults,DoFList{Idof})
+                                Compare{Icase}.DOFdesc{end+1}=DoFList{Idof};
+                                Compare{Icase}.DOFdelt{end+1}=OldResults.(DoFList{Idof}) - NewResults.(DoFList{Idof});
+                            <span class="keyword">end</span>
+                        <span class="keyword">end</span>
+                    <span class="keyword">else</span>
+                        Compare{Icase}.DOFdesc={<span class="string">'N/A'</span>};
+                        Compare{Icase}.DOFdelt=[];
+                        disp([<span class="string">'Saved case does not match current case for '</span> NewResults.Desc ]);
+                    <span class="keyword">end</span>
+                <span class="keyword">catch</span> ME
+                    Compare{Icase}=[];
+                    Compare{Icase}.Desc=<span class="string">''</span>;
+                    Compare{Icase}.DOFdelt={[]};
+                    Compare{Icase}.DOFdesc={<span class="string">''</span>};
+                    disp(<span class="string">'Previous data comparison impossible'</span>)
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                fprintf(<span class="string">'Results file not found.  A new one will be created (%s)\n'</span>, ResultsFile);
+                TestCaseModel=Results.Case;
+                save (ResultsFile,<span class="string">'-mat'</span>,<span class="string">'NewResults'</span>, <span class="string">'TestCaseModel'</span>)
+            <span class="keyword">end</span>
+        <span class="keyword">else</span>
+            disp(<span class="string">'Results file not requested.'</span>)
+        <span class="keyword">end</span>
+
+        fprintf(<span class="string">'Complete.\n'</span>)
+
+        <span class="comment">% WCC</span>
+        <span class="comment">% if length(testcasefiles)==Icase</span>
+        <span class="keyword">if</span> 1
+            figure(2);clf; pause(.001)
+            StateN=length(MI.GlobalTime);
+            subplot(1,2,1);
+            Visualize(sprintf(<span class="string">'t=%1.2f ms, State: %i of %i'</span>,MI.GlobalTime(end), StateN,length(NewResults.Tprnt(1,1,1,:))),MI <span class="keyword">...</span>
+                ,<span class="string">'state'</span>, NewResults.Tprnt(:,:,:,StateN) <span class="keyword">...</span>
+                ,<span class="string">'scaletitle'</span>, <span class="string">'Temperature'</span> <span class="keyword">...</span>
+                )
+            subplot(1,2,2);
+            Visualize(sprintf(<span class="string">'t=%1.2f ms, State: %i of %i'</span>,MI.GlobalTime(end), StateN,length(NewResults.MeltFrac(1,1,1,:))),MI <span class="keyword">...</span>
+                ,<span class="string">'state'</span>, NewResults.MeltFrac(:,:,:,StateN) <span class="keyword">...</span>
+                ,<span class="string">'scaletitle'</span>, <span class="string">'Melt Fraction'</span> <span class="keyword">...</span>
+                )
+
+            snapnow
+        <span class="keyword">end</span>
+        <span class="comment">%figure(3);clf; pause(.001)</span>
+        <span class="comment">%Visualize(sprintf('t=%1.2f ms, State: %i of %i',StateN*MI.DeltaT*1000, StateN,length(Tprnt(1,1,1,:))),[0 0 0 ],{MI.X MI.Y MI.Z}, MI.Model, MeltFrac(:,:,:,StateN),'Melt Fraction')</span>
+        <span class="comment">%disp('Press key to continue.');pause</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+
+DOFDesc={};
+CaseDesc={};
+<span class="keyword">for</span> I=1:length(Compare)
+    <span class="keyword">if</span> ~isempty(Compare{I}.Desc)
+        CaseDesc{I}=Compare{I}.Desc;
+        <span class="keyword">for</span> J=1:length(Compare{I}.DOFdelt)
+            <span class="keyword">if</span> size(Compare{I}.DOFdelt{J}(:))==2
+                PlotCompare(I,J)=sum((Compare{I}.DOFdelt{J}(:)).^2);
+            <span class="keyword">else</span>
+                PlotCompare(I,J)=sum((Compare{I}.DOFdelt{J}(:,2)).^2);
+            <span class="keyword">end</span>
+            DOFDesc{J}=Compare{I}.DOFdesc{J};
+            DeltaTime(I)=Compare{I}.DeltaTime;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><h2 id="5">WCC - figure 10</h2><pre class="codeinput">figure(10);
+clf
+NumCols=2;
+NumRows=ceil((1+length(DOFDesc))/NumCols);
+<span class="keyword">for</span> I=1:length(DOFDesc)
+    subplot(NumRows,NumCols,I+1)
+    barh(PlotCompare(:,I));
+    set(gca,<span class="string">'yticklabel'</span>,strrep(CaseDesc,<span class="string">'_'</span>,<span class="string">' '</span>))
+    xlabel(<span class="string">'Sum[RMS(Cur-Canon)]'</span>)
+    title(DOFDesc{I})
+    set(gca,<span class="string">'xscal'</span>,<span class="string">'log'</span>)
+<span class="keyword">end</span>
+<span class="keyword">if</span> exist(<span class="string">'DeltaTime'</span>,<span class="string">'var'</span>)
+    subplot(NumRows,NumCols,1)
+    barh(DeltaTime)
+    set(gca,<span class="string">'yticklabel'</span>,strrep(CaseDesc,<span class="string">'_'</span>,<span class="string">' '</span>))
+    title(<span class="string">'Wall Time (Current/Canon)'</span>)
+    xlabel(<span class="string">'time (s)'</span>)
+<span class="keyword">end</span>
+snapnow
+</pre><pre class="codeoutput">Only running casing meeting the following wildcard (TestCaseWildCard): g*
+
+testcasefiles = 
+
+  6&times;1 struct array with fields:
+
+    name
+    folder
+    date
+    bytes
+    isdir
+    datenum
+
+
+CaseName =
+
+    'g001_SimpleColumn.ppmodel'
+
+Executing test case g001_SimpleColumn.ppmodel...
+stop button functionality is not implemented in this GUI yet.
+File 'PostProcessResults.mlapp' doesn't exist, so Parametric Post Processor button is disabled.
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Transient Analysis
+advancing
+Transient Analysis
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Complete.
+</pre><img vspace="5" hspace="5" src="testcasesGUI_01.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_02.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_03.png" alt=""> <pre class="codeoutput">
+CaseName =
+
+    'g001_SimpleColumn_Results.ppmodel'
+
+Executing test case g001_SimpleColumn_Results.ppmodel...
+stop button functionality is not implemented in this GUI yet.
+File 'PostProcessResults.mlapp' doesn't exist, so Parametric Post Processor button is disabled.
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Transient Analysis
+advancing
+Transient Analysis
+Complete.
+</pre><img vspace="5" hspace="5" src="testcasesGUI_04.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_05.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_06.png" alt=""> <pre class="codeoutput">
+CaseName =
+
+    'g002_SimpleColumnPCM.ppmodel'
+
+Executing test case g002_SimpleColumnPCM.ppmodel...
+stop button functionality is not implemented in this GUI yet.
+File 'PostProcessResults.mlapp' doesn't exist, so Parametric Post Processor button is disabled.
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Transient Analysis
+advancing
+Transient Analysis
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Complete.
+</pre><img vspace="5" hspace="5" src="testcasesGUI_07.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_08.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_09.png" alt=""> <pre class="codeoutput">
+CaseName =
+
+    'g002_SimpleColumnPCM_Results.ppmodel'
+
+Executing test case g002_SimpleColumnPCM_Results.ppmodel...
+stop button functionality is not implemented in this GUI yet.
+File 'PostProcessResults.mlapp' doesn't exist, so Parametric Post Processor button is disabled.
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Transient Analysis
+advancing
+Transient Analysis
+Complete.
+</pre><img vspace="5" hspace="5" src="testcasesGUI_10.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_11.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_12.png" alt=""> <pre class="codeoutput">
+CaseName =
+
+    'g003_SimpleColumnVar.ppmodel'
+
+Executing test case g003_SimpleColumnVar.ppmodel...
+stop button functionality is not implemented in this GUI yet.
+File 'PostProcessResults.mlapp' doesn't exist, so Parametric Post Processor button is disabled.
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Transient Analysis
+advancing
+Transient Analysis
+Transient Analysis
+advancing
+Transient Analysis
+
+Results = 
+
+Thermal: 2x3x6x11
+MeltFrac: 2x3x6x11
+Stress: 0x0
+  PPResults with properties:
+
+          Model: [1&times;1 struct]
+           Case: [1&times;1 PPTCM]
+       TimeDate: 7.3791e+05
+    StatesAvail: {'Thermal'  'MeltFrac'  'Stress'}
+        Version: 'V1.0'
+
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Complete.
+</pre><img vspace="5" hspace="5" src="testcasesGUI_13.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_14.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_15.png" alt=""> <pre class="codeoutput">
+CaseName =
+
+    'g003_SimpleColumnVar_Results.ppmodel'
+
+Executing test case g003_SimpleColumnVar_Results.ppmodel...
+stop button functionality is not implemented in this GUI yet.
+File 'PostProcessResults.mlapp' doesn't exist, so Parametric Post Processor button is disabled.
+Warning: Cannot load an object of class 'PPMatSCPCM':
+Its class cannot be found. 
+Warning:
+The following materials will be removed from the library just loaded.
+It is likely that there is no class file for that material type.
+    6: Ga_SC, Type Unknown
+ 
+Transient Analysis
+advancing
+Transient Analysis
+Complete.
+</pre><img vspace="5" hspace="5" src="testcasesGUI_16.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_17.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_18.png" alt=""> <img vspace="5" hspace="5" src="testcasesGUI_19.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%%% WCC
+%This M files executes the set of validation test cases for ParaPower
+%The test cases to run exist as shortcuts/links in the Validation/Cases
+%directory.  The actual file should exist in the Validation/CasesHold
+%directory.
+
+%The first time a case is run, a file is generated with the name
+%CASENAME_Results.ppmodel.  This file holds both the model definition as a
+%the results of the analysis at the time.
+
+%The file can be loaded into the GUI using the "load profile" GUI button.
+%The model will be loaded, but no the results.
+
+clearvars -EXCEPT TestCaseWildCard
+
+addpath('..');  %include above directory which contains the parapower code
+CaseDir='Cases';  %Update this to include the directory that will hold the case files.
+
+if exist('TestCaseWildCard')
+    disp(['Only running casing meeting the following wildcard (TestCaseWildCard): ' TestCaseWildCard])
+else
+    disp('TestCaseWildCard variable doesn''t exist, running all testcases.')
+    TestCaseWildCard='g*';
+end
+TestCasesFspec=[CaseDir '/' TestCaseWildCard ];
+TestCasesFspec=strrep(TestCasesFspec,'**','*');
+
+testcasefiles=dir([TestCasesFspec '.ppmodel']);
+if ispc
+    testcasefiles=[testcasefiles dir([TestCasesFspec '.lnk'])];
+end
+
+testcasefiles
+
+Compare=[];
+WinHandle=[];
+
+for Icase=1:length(testcasefiles)
+    
+    CaseName=char(testcasefiles(Icase).name);
+    if ispc && strcmpi(CaseName(end-3:end),'.lnk')
+        [path,name,ext]=fileparts(getTargetFromLink([testcasefiles(Icase).folder '\' CaseName]));
+        CaseName=[name ext];
+        testcasefiles(Icase).folder=path;
+    end
+    %CaseName=CaseName(1:end-2);
+    
+    [CaseName]
+    
+    if isempty(str2num(CaseName(1)))
+        fprintf('Executing test case %s...\n',CaseName)
+        addpath(testcasefiles(Icase).folder);
+        if ishandle(WinHandle)
+            delete(WinHandle)
+        else
+            delete(findall(0,'tag','figure1'));
+        end
+        
+        %%% WCC - ParaPowerGUI_V2
+        %
+        %
+        WinHandle=ParaPowerGUI_V2;
+        Handles=guidata(WinHandle);
+        hObject=Handles.loadbutton;
+        EventData=[];
+        %%% WCC - ParaPowerGUI_V2
+        %
+        %
+        ParaPowerGUI_V2('loadbutton_Callback',hObject,EventData,Handles,CaseName);
+        Handles=guidata(WinHandle);
+        tic
+        %%% WCC - ParaPowerGUI_V2
+        %
+        %
+        ParaPowerGUI_V2('RunAnalysis_Callback',hObject,EventData,Handles);
+        ExecTime=toc;
+        Results=getappdata(WinHandle,'Results');
+        rmpath(testcasefiles(Icase).folder)
+        CaseExists=true;
+    else
+        fprintf('Can''t execute ''%s''. Name cannot start with a number.\n',CaseName)
+        CaseExists=false;
+    end
+    
+    if CaseExists
+        if length(Results)>1
+            Results=Results(1)
+        end
+        %[Tprnt, T_in, MeltFrac,MeltFrac_in]=S1(GlobalTimeOrig(1:end));  %Compute states at times in ComputeTime (S1 must be called with 1 arg in 2017b)
+        NewResults.Tprnt   =Results.getState('Thermal');
+        NewResults.MeltFrac=Results.getState('MeltFrac');%cat(4, MeltFrac_in , MeltFrac);
+        MI=Results.Model;
+        %MI.GlobalTime = GlobalTimeOrig; %Reassemble MI's global time to match initialization and computed states.
+        Fi=1; %Could be used to mask for features; (Tprnt would be Tprnt(Mask)
+        NewResults.DoutT(:,1+Fi)=max(reshape(NewResults.Tprnt,[],length(MI.GlobalTime)),[],1);
+        NewResults.DoutM(:,1+Fi)=max(reshape(NewResults.Tprnt,[],length(MI.GlobalTime)),[],1);
+        NewResults.DoutT(:,1)=MI.GlobalTime;
+        NewResults.DoutM(:,1)=MI.GlobalTime;
+        %        ExecTime=toc;
+        NewResults.ExecTime=ExecTime;
+        NewResults.DateTime=datetime;
+        NewResults.Desc=CaseName(1:max(find(CaseName=='.'))-1); %TestCaseModel.Desc;
+        NewResults.Computer=computer();
+        NewResults.Matlab=ver('matlab');
+        if exist([testcasefiles(Icase).folder '/' name '.ppmodel'],'file')
+            ResultsFile=[testcasefiles(Icase).folder '/' name, '_Results.ppmodel'];
+            if exist(ResultsFile,'file')
+                OldResults=load(ResultsFile,'-mat');
+                if ~isfield(OldResults,'NewResults')
+                    disp([ResultsFile ' uses older version of stored results file.  ''Results'' variable is now named ''NewResults''.'])
+                    OldResults=OldResults.('Results');
+                else
+                    OldResults=OldResults.('NewResults');
+                end
+                Compare{Icase}.Desc=NewResults.Desc;
+                Compare{Icase}.DeltaTime=NewResults.ExecTime / OldResults.ExecTime;
+                Compare{Icase}.GlobalTime=MI.GlobalTime;
+                DoFList={'Tprnt' 'MeltFrac'};
+                try
+                    if size(NewResults.Tprnt) == size(OldResults.Tprnt)
+                        for Idof=1:length(DoFList)
+                            if isfield(NewResults,DoFList{Idof})
+                                Compare{Icase}.DOFdesc{Idof}=DoFList{Idof};
+                                Compare{Icase}.DOFdelt{Idof}=OldResults.(DoFList{Idof}) - NewResults.(DoFList{Idof});
+                            end
+                        end
+                        DoFList={'DoutT' 'DoutM'};
+                        for Idof=1:length(DoFList)
+                            if isfield(NewResults,DoFList{Idof})
+                                Compare{Icase}.DOFdesc{end+1}=DoFList{Idof};
+                                Compare{Icase}.DOFdelt{end+1}=OldResults.(DoFList{Idof}) - NewResults.(DoFList{Idof});
+                            end
+                        end
+                    else
+                        Compare{Icase}.DOFdesc={'N/A'};
+                        Compare{Icase}.DOFdelt=[];
+                        disp(['Saved case does not match current case for ' NewResults.Desc ]);
+                    end
+                catch ME
+                    Compare{Icase}=[];
+                    Compare{Icase}.Desc='';
+                    Compare{Icase}.DOFdelt={[]};
+                    Compare{Icase}.DOFdesc={''};
+                    disp('Previous data comparison impossible')
+                end
+            else
+                fprintf('Results file not found.  A new one will be created (%s)\n', ResultsFile);
+                TestCaseModel=Results.Case;
+                save (ResultsFile,'-mat','NewResults', 'TestCaseModel')
+            end
+        else
+            disp('Results file not requested.')
+        end
+        
+        fprintf('Complete.\n')
+        
+        % WCC
+        % if length(testcasefiles)==Icase
+        if 1
+            figure(2);clf; pause(.001)
+            StateN=length(MI.GlobalTime);
+            subplot(1,2,1);
+            Visualize(sprintf('t=%1.2f ms, State: %i of %i',MI.GlobalTime(end), StateN,length(NewResults.Tprnt(1,1,1,:))),MI ...
+                ,'state', NewResults.Tprnt(:,:,:,StateN) ...
+                ,'scaletitle', 'Temperature' ...
+                )
+            subplot(1,2,2);
+            Visualize(sprintf('t=%1.2f ms, State: %i of %i',MI.GlobalTime(end), StateN,length(NewResults.MeltFrac(1,1,1,:))),MI ...
+                ,'state', NewResults.MeltFrac(:,:,:,StateN) ...
+                ,'scaletitle', 'Melt Fraction' ...
+                )
+            
+            snapnow
+        end
+        %figure(3);clf; pause(.001)
+        %Visualize(sprintf('t=%1.2f ms, State: %i of %i',StateN*MI.DeltaT*1000, StateN,length(Tprnt(1,1,1,:))),[0 0 0 ],{MI.X MI.Y MI.Z}, MI.Model, MeltFrac(:,:,:,StateN),'Melt Fraction')
+        %disp('Press key to continue.');pause
+    end
+end
+
+
+DOFDesc={};
+CaseDesc={};
+for I=1:length(Compare)
+    if ~isempty(Compare{I}.Desc)
+        CaseDesc{I}=Compare{I}.Desc;
+        for J=1:length(Compare{I}.DOFdelt)
+            if size(Compare{I}.DOFdelt{J}(:))==2
+                PlotCompare(I,J)=sum((Compare{I}.DOFdelt{J}(:)).^2);
+            else
+                PlotCompare(I,J)=sum((Compare{I}.DOFdelt{J}(:,2)).^2);
+            end
+            DOFDesc{J}=Compare{I}.DOFdesc{J};
+            DeltaTime(I)=Compare{I}.DeltaTime;
+        end
+    end
+end
+
+%%% WCC - figure 10
+figure(10);
+clf
+NumCols=2;
+NumRows=ceil((1+length(DOFDesc))/NumCols);
+for I=1:length(DOFDesc)
+    subplot(NumRows,NumCols,I+1)
+    barh(PlotCompare(:,I));
+    set(gca,'yticklabel',strrep(CaseDesc,'_',' '))
+    xlabel('Sum[RMS(Cur-Canon)]')
+    title(DOFDesc{I})
+    set(gca,'xscal','log')
+end
+if exist('DeltaTime','var')
+    subplot(NumRows,NumCols,1)
+    barh(DeltaTime)
+    set(gca,'yticklabel',strrep(CaseDesc,'_',' '))
+    title('Wall Time (Current/Canon)')
+    xlabel('time (s)')
+end
+snapnow
+
+##### SOURCE END #####
+--></body></html>
