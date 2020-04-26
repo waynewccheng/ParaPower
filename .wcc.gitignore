@@ -1,9 +1,0 @@
-#Ignore files in this directory
-*~
-*.bak
-*.asv
-thumbs.db
-deleteme.*
-deleteme
-deleteme*
-ARL_ParaPower\Validation\Cases\*
