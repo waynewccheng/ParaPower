@@ -21,6 +21,8 @@ TestCaseWildCard = 'c00*.m'
 
 %%% WCC - c050 does not work
 
+%% prepare input data files
+
 clearvars -EXCEPT TestCaseWildCard
 
 
@@ -54,7 +56,11 @@ clear MatLib
 
 Compare=[];
 
-for Icase=1:length(testcasefiles)
+disp(testcasefiles)
+
+%% main loop
+%for Icase=1:length(testcasefiles)
+for Icase=1
     
     clearvars -EXCEPT TestCaseWildCard Icase testcasefiles Compare
     CaseName=char(testcasefiles(Icase).name);
@@ -135,11 +141,17 @@ for Icase=1:length(testcasefiles)
         MI.GlobalTime=GlobalTimeOrig(1);  %Setup initialization
         
         %%% WCC - scPPT was constructed here
-        %
+        % very likely to be "ParaPowerThermal.m"
         %
         S1=scPPT('MI',MI); %Initialize object
+        
+        %%% WCC - setupImpl is called via the setup method. Users never call the setup method directly. But, setup is called the first time a System object is run and after a System object has been released. For details, see Detailed Call Sequence
+        % from https://www.mathworks.com/help/matlab/ref/matlab.system.setupimpl.html
         setup(S1,[]);
+        
+        %%% WCC - temperature(t) and meltfraction(t)
         [Tprnt, T_in, MeltFrac,MeltFrac_in]=S1(GlobalTimeOrig(1:end));  %Compute states at times in ComputeTime (S1 must be called with 1 arg in 2017b)
+        
         NewResults.Tprnt   =cat(4, T_in        , Tprnt  );
         NewResults.MeltFrac=cat(4, MeltFrac_in , MeltFrac);
         MI.GlobalTime = GlobalTimeOrig; %Reassemble MI's global time to match initialization and computed states.
@@ -240,6 +252,9 @@ for Icase=1:length(testcasefiles)
         %disp('Press key to continue.');pause
     end
 end
+
+
+%% post main loop
 
 DOFDesc={};
 CaseDesc={};

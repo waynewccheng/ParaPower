@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">WCC - TestCaseWildCard - choose the case here</a></li><li><a href="#3">WCC - c050 does not work</a></li><li><a href="#4">WCC - .ppmodel was saved</a></li><li><a href="#5">WCC - MI was created here</a></li><li><a href="#6">WCC - Visualize() called</a></li><li><a href="#7">WCC - scPPT was constructed here</a></li><li><a href="#8">WCC - Visualize() called</a></li><li><a href="#9">WCC - Visualize() called</a></li><li><a href="#10">WCC - figure 10</a></li></ul></div><pre class="codeinput"><span class="comment">%%WCC How to run ParaPower</span>
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#2">WCC - TestCaseWildCard - choose the case here</a></li><li><a href="#3">WCC - c050 does not work</a></li><li><a href="#4">WCC - TestCaseModel used here</a></li><li><a href="#5">WCC - .ppmodel was saved</a></li><li><a href="#6">WCC - MI was created here</a></li><li><a href="#7">WCC - Visualize() called</a></li><li><a href="#8">WCC - scPPT was constructed here</a></li><li><a href="#9">WCC - Visualize() called</a></li><li><a href="#10">WCC - Visualize() called</a></li><li><a href="#11">WCC - figure 10</a></li></ul></div><pre class="codeinput"><span class="comment">%%WCC How to run ParaPower</span>
 <span class="comment">% This M files executes the set of validation test cases for ParaPower</span>
 <span class="comment">% The test cases to run exist as shortcuts/links in the Validation/Cases</span>
 <span class="comment">% directory.  The actual file should exist in the Validation/CasesHold</span>
@@ -95,8 +95,6 @@ CaseDir=<span class="string">'Cases'</span>;  <span class="comment">%Update this
 
 TestCasesFspec=[CaseDir <span class="string">'/'</span> TestCaseWildCard ];
 TestCasesFspec=strrep(TestCasesFspec,<span class="string">'**'</span>,<span class="string">'*'</span>);
-
-TestCasesFspec
 
 testcasefiles=dir([TestCasesFspec <span class="string">'*'</span>])
 <span class="keyword">if</span> ispc
@@ -153,20 +151,20 @@ Compare=[];
 
         <span class="comment">%Material Properties</span>
         <span class="keyword">if</span> isfield(TestCaseModel.TCM,<span class="string">'MatLib'</span>) || isprop(TestCaseModel.TCM,<span class="string">'MatLib'</span>)
-            MatLib=TestCaseModel.TCM.MatLib;
+</pre><h2 id="4">WCC - TestCaseModel used here</h2><pre class="codeinput">            MatLib=TestCaseModel.TCM.MatLib;
         <span class="keyword">else</span>
             disp(<span class="string">'Adding default materials from the material database to the model'</span>)
             TestCaseModel.TCM.MatLib=OrigMatLib;
             <span class="comment">%return</span>
         <span class="keyword">end</span>
-</pre><h2 id="4">WCC - .ppmodel was saved</h2><pre class="codeinput">        <span class="comment">%save([MFILE '.ppmodel'], '-mat', 'TestCaseModel');</span>
-</pre><h2 id="5">WCC - MI was created here</h2><pre class="codeinput">        MI=FormModel(TestCaseModel.TCM);
+</pre><h2 id="5">WCC - .ppmodel was saved</h2><pre class="codeinput">        <span class="comment">%save([MFILE '.ppmodel'], '-mat', 'TestCaseModel');</span>
+</pre><h2 id="6">WCC - MI was created here</h2><pre class="codeinput">        MI=FormModel(TestCaseModel.TCM);
 
         <span class="comment">% WCC - only the last time</span>
         <span class="comment">%        if length(testcasefiles)==Icase</span>
         <span class="keyword">if</span> 1
             figure(1);clf; figure(2);clf; figure(1)
-</pre><h2 id="6">WCC - Visualize() called</h2><pre class="codeinput">            Visualize (<span class="string">'Model Input'</span>, MI, <span class="string">'modelgeom'</span>,<span class="string">'ShowQ'</span>)
+</pre><h2 id="7">WCC - Visualize() called</h2><pre class="codeinput">            Visualize (<span class="string">'Model Input'</span>, MI, <span class="string">'modelgeom'</span>,<span class="string">'ShowQ'</span>)
 
             <span class="comment">% WCC</span>
             set(gcf, <span class="string">'Units'</span>, <span class="string">'Normalized'</span>, <span class="string">'OuterPosition'</span>, [0.1, 0.1, 0.8, 0.8]);
@@ -178,7 +176,7 @@ Compare=[];
         tic;
         GlobalTimeOrig=MI.GlobalTime;
         MI.GlobalTime=GlobalTimeOrig(1);  <span class="comment">%Setup initialization</span>
-</pre><h2 id="7">WCC - scPPT was constructed here</h2><pre class="codeinput">        S1=scPPT(<span class="string">'MI'</span>,MI); <span class="comment">%Initialize object</span>
+</pre><h2 id="8">WCC - scPPT was constructed here</h2><pre class="codeinput">        S1=scPPT(<span class="string">'MI'</span>,MI); <span class="comment">%Initialize object</span>
         setup(S1,[]);
         [Tprnt, T_in, MeltFrac,MeltFrac_in]=S1(GlobalTimeOrig(1:end));  <span class="comment">%Compute states at times in ComputeTime (S1 must be called with 1 arg in 2017b)</span>
         NewResults.Tprnt   =cat(4, T_in        , Tprnt  );
@@ -254,13 +252,13 @@ Compare=[];
             figure(2);clf; pause(.001)
             StateN=length(MI.GlobalTime);
             subplot(1,2,1);
-</pre><h2 id="8">WCC - Visualize() called</h2><pre class="codeinput">            Visualize(sprintf(<span class="string">'t=%1.2f ms, State: %i of %i'</span>,MI.GlobalTime(end), StateN,length(NewResults.Tprnt(1,1,1,:))),MI <span class="keyword">...</span>
+</pre><h2 id="9">WCC - Visualize() called</h2><pre class="codeinput">            Visualize(sprintf(<span class="string">'t=%1.2f ms, State: %i of %i'</span>,MI.GlobalTime(end), StateN,length(NewResults.Tprnt(1,1,1,:))),MI <span class="keyword">...</span>
                 ,<span class="string">'state'</span>, NewResults.Tprnt(:,:,:,StateN) <span class="keyword">...</span>
                 ,<span class="string">'scaletitle'</span>, <span class="string">'Temperature'</span> <span class="keyword">...</span>
                 )
 
             subplot(1,2,2);
-</pre><h2 id="9">WCC - Visualize() called</h2><pre class="codeinput">            Visualize(sprintf(<span class="string">'t=%1.2f ms, State: %i of %i'</span>,MI.GlobalTime(end), StateN,length(NewResults.MeltFrac(1,1,1,:))),MI <span class="keyword">...</span>
+</pre><h2 id="10">WCC - Visualize() called</h2><pre class="codeinput">            Visualize(sprintf(<span class="string">'t=%1.2f ms, State: %i of %i'</span>,MI.GlobalTime(end), StateN,length(NewResults.MeltFrac(1,1,1,:))),MI <span class="keyword">...</span>
                 ,<span class="string">'state'</span>, NewResults.MeltFrac(:,:,:,StateN) <span class="keyword">...</span>
                 ,<span class="string">'scaletitle'</span>, <span class="string">'Melt Fraction'</span> <span class="keyword">...</span>
                 )
@@ -292,7 +290,7 @@ CaseDesc={};
         <span class="keyword">end</span>
     <span class="keyword">end</span>
 <span class="keyword">end</span>
-</pre><h2 id="10">WCC - figure 10</h2><pre class="codeinput">figure(10);
+</pre><h2 id="11">WCC - figure 10</h2><pre class="codeinput">figure(10);
 set(gcf, <span class="string">'Units'</span>, <span class="string">'Normalized'</span>, <span class="string">'OuterPosition'</span>, [0.1, 0.1, 0.8, 0.8]);
 clf
 NumCols=2;
@@ -322,11 +320,6 @@ TestCaseWildCard =
 
 Only running casing meeting the following wildcard (TestCaseWildCard): c00*.m
 
-TestCasesFspec =
-
-    'Cases/c00*.m'
-
-
 testcasefiles = 
 
   9&times;1 struct array with fields:
@@ -342,31 +335,31 @@ testcasefiles =
 Executing test case c001_1d_unidirectional...
 </pre><img vspace="5" hspace="5" src="testcases_01.png" alt=""> <img vspace="5" hspace="5" src="testcases_02.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
 Complete.
-</pre><img vspace="5" hspace="5" src="testcases_03.png" alt=""> <pre class="codeoutput">Executing test case c002_Triad_Unidirectional...
-</pre><img vspace="5" hspace="5" src="testcases_04.png" alt=""> <img vspace="5" hspace="5" src="testcases_05.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
+</pre><img vspace="5" hspace="5" src="testcases_03.png" alt=""> <img vspace="5" hspace="5" src="testcases_04.png" alt=""> <pre class="codeoutput">Executing test case c002_Triad_Unidirectional...
+</pre><img vspace="5" hspace="5" src="testcases_05.png" alt=""> <img vspace="5" hspace="5" src="testcases_06.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
 Complete.
-</pre><img vspace="5" hspace="5" src="testcases_06.png" alt=""> <pre class="codeoutput">Executing test case c003_Triad_Unidirectional_0Layer...
-</pre><img vspace="5" hspace="5" src="testcases_07.png" alt=""> <img vspace="5" hspace="5" src="testcases_08.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
+</pre><img vspace="5" hspace="5" src="testcases_07.png" alt=""> <pre class="codeoutput">Executing test case c003_Triad_Unidirectional_0Layer...
+</pre><img vspace="5" hspace="5" src="testcases_08.png" alt=""> <img vspace="5" hspace="5" src="testcases_09.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
 Complete.
-</pre><img vspace="5" hspace="5" src="testcases_09.png" alt=""> <pre class="codeoutput">Executing test case c004_Triad_Bidirectional...
-</pre><img vspace="5" hspace="5" src="testcases_10.png" alt=""> <img vspace="5" hspace="5" src="testcases_11.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
+</pre><img vspace="5" hspace="5" src="testcases_10.png" alt=""> <img vspace="5" hspace="5" src="testcases_11.png" alt=""> <pre class="codeoutput">Executing test case c004_Triad_Bidirectional...
+</pre><img vspace="5" hspace="5" src="testcases_12.png" alt=""> <img vspace="5" hspace="5" src="testcases_13.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
 Complete.
-</pre><img vspace="5" hspace="5" src="testcases_12.png" alt=""> <pre class="codeoutput">Executing test case c005_Triad_UniPCM...
-</pre><img vspace="5" hspace="5" src="testcases_13.png" alt=""> <img vspace="5" hspace="5" src="testcases_14.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
+</pre><img vspace="5" hspace="5" src="testcases_14.png" alt=""> <pre class="codeoutput">Executing test case c005_Triad_UniPCM...
+</pre><img vspace="5" hspace="5" src="testcases_15.png" alt=""> <img vspace="5" hspace="5" src="testcases_16.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
 Complete.
-</pre><img vspace="5" hspace="5" src="testcases_15.png" alt=""> <pre class="codeoutput">Executing test case c006_UniPCM...
-</pre><img vspace="5" hspace="5" src="testcases_16.png" alt=""> <img vspace="5" hspace="5" src="testcases_17.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
+</pre><img vspace="5" hspace="5" src="testcases_17.png" alt=""> <pre class="codeoutput">Executing test case c006_UniPCM...
+</pre><img vspace="5" hspace="5" src="testcases_18.png" alt=""> <img vspace="5" hspace="5" src="testcases_19.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
 Complete.
-</pre><img vspace="5" hspace="5" src="testcases_18.png" alt=""> <pre class="codeoutput">Executing test case c007_BlckPCM...
-</pre><img vspace="5" hspace="5" src="testcases_19.png" alt=""> <img vspace="5" hspace="5" src="testcases_20.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
+</pre><img vspace="5" hspace="5" src="testcases_20.png" alt=""> <pre class="codeoutput">Executing test case c007_BlckPCM...
+</pre><img vspace="5" hspace="5" src="testcases_21.png" alt=""> <img vspace="5" hspace="5" src="testcases_22.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
 Complete.
-</pre><img vspace="5" hspace="5" src="testcases_21.png" alt=""> <pre class="codeoutput">Executing test case c008_PCMInitT...
-</pre><img vspace="5" hspace="5" src="testcases_22.png" alt=""> <img vspace="5" hspace="5" src="testcases_23.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
+</pre><img vspace="5" hspace="5" src="testcases_23.png" alt=""> <pre class="codeoutput">Executing test case c008_PCMInitT...
+</pre><img vspace="5" hspace="5" src="testcases_24.png" alt=""> <img vspace="5" hspace="5" src="testcases_25.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
 Complete.
-</pre><img vspace="5" hspace="5" src="testcases_24.png" alt=""> <pre class="codeoutput">Executing test case c009_Cube_unidirectional_Variable...
-</pre><img vspace="5" hspace="5" src="testcases_25.png" alt=""> <img vspace="5" hspace="5" src="testcases_26.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
+</pre><img vspace="5" hspace="5" src="testcases_26.png" alt=""> <pre class="codeoutput">Executing test case c009_Cube_unidirectional_Variable...
+</pre><img vspace="5" hspace="5" src="testcases_27.png" alt=""> <img vspace="5" hspace="5" src="testcases_28.png" alt=""> <pre class="codeoutput">Analysis executing...Transient Analysis
 Complete.
-</pre><img vspace="5" hspace="5" src="testcases_27.png" alt=""> <img vspace="5" hspace="5" src="testcases_28.png" alt=""> <img vspace="5" hspace="5" src="testcases_29.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="testcases_29.png" alt=""> <img vspace="5" hspace="5" src="testcases_30.png" alt=""> <img vspace="5" hspace="5" src="testcases_31.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %%WCC How to run ParaPower
 % This M files executes the set of validation test cases for ParaPower
@@ -407,8 +400,6 @@ end
 
 TestCasesFspec=[CaseDir '/' TestCaseWildCard ];
 TestCasesFspec=strrep(TestCasesFspec,'**','*');
-
-TestCasesFspec
 
 testcasefiles=dir([TestCasesFspec '*'])
 if ispc
@@ -465,6 +456,8 @@ for Icase=1:length(testcasefiles)
         
         %Material Properties
         if isfield(TestCaseModel.TCM,'MatLib') || isprop(TestCaseModel.TCM,'MatLib')
+            %%% WCC - TestCaseModel used here
+            %
             MatLib=TestCaseModel.TCM.MatLib;
         else
             disp('Adding default materials from the material database to the model')

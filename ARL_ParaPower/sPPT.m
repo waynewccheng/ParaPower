@@ -1,3 +1,7 @@
+%%% WCC - possibly ParaPowerThermal.m
+% use Matlab matlab.System
+% https://www.mathworks.com/help/matlab/ref/matlab.system-class.html
+
 classdef sPPT < matlab.System & matlab.system.mixin.Propagates ...
         & matlab.system.mixin.CustomIcon
     % Untitled Add summary here
@@ -72,12 +76,16 @@ classdef sPPT < matlab.System & matlab.system.mixin.Propagates ...
         % Constructor
         function obj = sPPT(varargin)
             % Support name-value pair arguments when constructing object
+            
+            %%% WCC - https://www.mathworks.com/help/matlab/ref/matlab.system.setproperties.html
             setProperties(obj,nargin,varargin{:})
         end
     end
 
+    %%% WCC - protected methods defined for matlab.System
     methods(Access = protected)
         %% Common functions
+            %%% WCC - https://www.mathworks.com/help/matlab/ref/matlab.system.setupimpl.html
         function setupImpl(obj)
             % Perform model initialization using parameters stored in MI
             MI=obj.MI;
@@ -234,6 +242,7 @@ classdef sPPT < matlab.System & matlab.system.mixin.Propagates ...
         end
 
         function [Tres, T_in, PHres, PH_in] = stepImpl(obj,GlobalTime)
+            %%% WCC - https://www.mathworks.com/help/matlab/ref/matlab.system.stepimpl.html
             % Implement algorithm. 
 
             %% Set up Timesteps
@@ -445,11 +454,13 @@ classdef sPPT < matlab.System & matlab.system.mixin.Propagates ...
         end
         
         function resetImpl(obj)
+    %%% WCC - https://www.mathworks.com/help/matlab/ref/matlab.system.resetimpl.html
             % Initialize / reset discrete-state properties
         end
         
         %% Backup/restore functions
         function s = saveObjectImpl(obj)
+            %%% WCC - https://www.mathworks.com/help/matlab/ref/matlab.system.saveobjectimpl.html
             % Set properties in structure s to values in object obj
 
             % Set public properties and states
@@ -460,6 +471,7 @@ classdef sPPT < matlab.System & matlab.system.mixin.Propagates ...
         end
 
         function loadObjectImpl(obj,s,wasLocked)
+            %%% WCC - https://www.mathworks.com/help/matlab/ref/matlab.system.loadobjectimpl.html
             % Set properties in object obj to values in structure s
 
             % Set private and protected properties
@@ -470,18 +482,21 @@ classdef sPPT < matlab.System & matlab.system.mixin.Propagates ...
         end
 
         %% Simulink functions
+        %%% WCC - Simulink???
         %function ds = getDiscreteStateImpl(obj)
             % Return structure of properties with DiscreteState attribute
             %ds = struct([]);
         %end
 
         function flag = isInputSizeMutableImpl(obj,index)
+            %%% WCC - https://www.mathworks.com/help/matlab/ref/matlab.system.isinputsizemutableimpl.html
             % Return false if input size cannot change
             % between calls to the System object
             flag = true;
         end
 
         function out = getOutputSizeImpl(obj)
+            %%% WCC - https://www.mathworks.com/help/matlab/ref/matlab.system.getoutputsizeimpl.html
             % Return size for each output port
             out = [1 1];
 
@@ -490,6 +505,7 @@ classdef sPPT < matlab.System & matlab.system.mixin.Propagates ...
         end
 
         function icon = getIconImpl(obj)
+            %%% WCC - https://www.mathworks.com/help/matlab/ref/matlab.system.geticonimpl.html
             % Define icon for System block
             icon = mfilename("sPPT"); % Use class name
             % icon = "My System"; % Example: text icon
@@ -893,6 +909,7 @@ classdef sPPT < matlab.System & matlab.system.mixin.Propagates ...
     methods(Static, Access = protected)
         %% Simulink customization functions
         function header = getHeaderImpl
+            %%% WCC - https://www.mathworks.com/help/matlab/ref/matlab.system.getheaderimpl.html
             % Define header panel for System block dialog
             header = matlab.system.display.Header(mfilename("class"));
         end
