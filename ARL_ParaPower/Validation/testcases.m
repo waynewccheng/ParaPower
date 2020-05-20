@@ -59,8 +59,8 @@ Compare=[];
 disp(testcasefiles)
 
 %% main loop
-%for Icase=1:length(testcasefiles)
-for Icase=1
+for Icase=1:length(testcasefiles)
+%for Icase=1
     
     clearvars -EXCEPT TestCaseWildCard Icase testcasefiles Compare
     CaseName=char(testcasefiles(Icase).name);
