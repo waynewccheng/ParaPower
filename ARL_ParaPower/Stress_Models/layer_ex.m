@@ -37,7 +37,9 @@ for i=nlsub+1:NL
     end
 end
 c=(Ebs*ts*cte(Mat(row,col,nlsub))*dTs+sumcn)/(Ebs*ts+sumd);
+% TC eq. 6 (c = uniform strain component)
 tb=((-Ebs*ts^2)+sumtbn)/(2*(Ebs*ts+sumd));
+% TC eq. 8 (tb = location of the bending axis)
 for i=nlsub+1:NL
     if Mat(row,col,i) == 0
         sumrn=sumrn+0;
@@ -54,6 +56,13 @@ for i=nlsub+1:NL
     end
 end
 r=((Ebs*ts^2)*(2*ts+3*tb)+sumrn)/(3*(Ebs*(c-cte(Mat(row,col,nlsub))*dTs)*ts^2-sumrd));
+% TC eq. 10 (r = radius of curvature of system)
+% found r by inversing equation for curvature (1/r)
 eps=c+(z-tb)/r;
+% TC eq. 2 (total strain in multilayer)
 sigma=Ebl*(eps-cte(Mat(row,col,lay))*dT(row,col,lay));
+% TC eq. 3 (normal stresses in substrate - also found in ppt. p. 4)
+% TC Ebl = modulus of elasticity (Young's modulus)
+% TC cte = coefficients of thermal expansion
+% TC dt = cooling temperature range
 end
