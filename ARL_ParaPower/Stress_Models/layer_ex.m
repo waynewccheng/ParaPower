@@ -2,6 +2,8 @@ function sigma=layer_ex(row,col,lay,dT,dz,cte,E,nu,nlsub,Mat,NL)
 % This function calculates the thermal stress in the film layers
 % Based on paper by C. H. Hsueh, Thin Solid Films, Vol 418, 2002
 % global dz cte E nu nlsub Mat NL
+
+% TC loop calculates z
 if lay == nlsub+1
     z=dz(lay)/2;
 else
@@ -10,15 +12,26 @@ end
 %fprintf(' MAT(%.0f, %.0f, %.0f) = %.0f\n',row,col,nlsub, Mat(row,col,nlsub))
 
 Ebs=E(Mat(row,col,nlsub))/(1-nu(Mat(row,col,nlsub)));
+% TC eq. 2 from 2017 iPack paper
+% TC calclates E (biaxial modulus) given by E/(1-v), v = Poisson's ratio
 dTs=mean(dT(row,col,1:nlsub));
 ts=sum(dz(1:nlsub));
 Ebl=E(Mat(row,col,lay))/(1-nu(Mat(row,col,lay)));
+% TC Ebl is only difference between layer_ex.m and substrate_ex.m
+
 % Calculate sums in the equations for c, tb and r
 sumcn=0;
+% TC sumcn = summation in numerator of eq. 6 (for c)
 sumd=0;
+% TC sumd = summation in denominator of eq. 8 (tb) and eq. 6 (c)
 sumtbn=0;
+% TC sumtbn = summation in numerator of eq. 8 (for tb)
 sumrn=0;
+% TC sumrn = summation in numerator of eq. 10 (for r)
 sumrd=0;
+% TC sumrd = summation in denominator of eq. 10 (for r)
+
+% TC The following loop is calculates sumcn, sumd, and sumtbn.
 for i=nlsub+1:NL
     if Mat(row,col,i) == 0
         sumcn=sumcn+0;
@@ -36,10 +49,15 @@ for i=nlsub+1:NL
         sumtbn=sumtbn+Ebi*dz(i)*(2*him1+dz(i));
     end
 end
+% TC him1 = h (subscript: i-1)
+
 c=(Ebs*ts*cte(Mat(row,col,nlsub))*dTs+sumcn)/(Ebs*ts+sumd);
 % TC eq. 6 (c = uniform strain component)
 tb=((-Ebs*ts^2)+sumtbn)/(2*(Ebs*ts+sumd));
 % TC eq. 8 (tb = location of the bending axis)
+
+% TC go from 2nd layer to n
+% TC This loop calculates sumrd and sumrn. 
 for i=nlsub+1:NL
     if Mat(row,col,i) == 0
         sumrn=sumrn+0;
